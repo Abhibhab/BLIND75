@@ -13,3 +13,45 @@ public:
         
     }
 };
+
+
+void   moveZeroes(vector<int>&arr)
+
+{
+    int n = arr.size();
+    // To store the count of elements which are not equal to 1
+    int count1 = 0;
+    // Traverse the array and calculate count of elements
+    // which are not 1
+    for (int i = 0; i < n; i++)
+        if (arr[i] != 1)
+            arr[count1++] = arr[i];
+    deb(count1);
+
+    // Now all non-ones elements have been shifted to front
+    // and 'count1' is set as index of first 1. Make all
+    // elements 1 from count to end.
+    while (count1 < n)
+        arr[count1++] = 1;
+    // Initialize lastNonBinary position to zero
+    int lastNonOne = 0;
+
+    // Traverse the array and pull non-zero elements to the
+    // required indices
+    for (int i = n - 1; i >= 0; i--) {
+        // Ignore the 1's
+        if (arr[i] == 1)
+            continue;
+        // Mark the position Of last NonBinary integer
+        if (!lastNonOne)
+            lastNonOne = i;
+        deb(lastNonOne);
+        // Place non-zero element to their required indices
+        if (arr[i] != 0)
+            arr[lastNonOne--] = arr[i];
+    }
+
+    // Put zeros to start of array
+    while (lastNonOne >= 0)
+        arr[lastNonOne--] = 0;
+}
