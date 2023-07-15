@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<vector<int>>ans;
+    set<vector<int>>st;
+    void helper(vector<int>&candidates,int i,int size,int target,int cur,vector<int>vec){
+        if(i==size){
+            if(cur==target){
+                sort(vec.begin(),vec.end());
+                st.insert(vec);
+
+                // ans.push_back(vec);
+            }
+            return;
+        }
+        if(cur+candidates[i]<=target){
+            vec.push_back(candidates[i]);
+            // helper(candidates,i+1,size,target,cur+candidates[i],vec);
+            helper(candidates,i,size,target,cur+candidates[i],vec);
+            vec.pop_back();
+            helper(candidates,i+1,size,target,cur,vec);
+
+
+        }else{
+            helper(candidates,i+1,size,target,cur,vec);
+
+        }
+       
+    }
+
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<int>vec;
+        helper(candidates,0,candidates.size(),target,0,vec);
+        for(auto it:st){
+            ans.push_back(it);
+        }
+        return ans;
+
+        
+    }
+};
