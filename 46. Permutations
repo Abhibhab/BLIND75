@@ -1,0 +1,51 @@
+class Solution {
+public:
+vector<vector<int>>ans;
+
+void helper2(vector<int>&nums,vector<int>&vis,int n,vector<int>&ds){
+    if(ds.size()==n){
+        ans.push_back(ds);
+        return;
+    }
+    for(int i=0;i<n;i++){
+        if(!vis[i]){
+            ds.push_back(nums[i]);
+            vis[i]=1;
+            helper2(nums,vis,n,ds);
+            vis[i]=0;
+            ds.pop_back();
+
+        }
+    }
+    
+}
+    void helper(int ind,vector<int>&nums,int n){
+        if(ind==n){
+            ans.push_back(nums);
+            return;
+
+        }
+        for(int i=ind;i<n;i++){
+            swap(nums[i],nums[ind]);
+            helper(ind+1,nums,n);
+            swap(nums[i],nums[ind]);
+        }
+    }
+    
+    vector<vector<int>> permute(vector<int>& nums) {
+        // helper(0,nums,nums.size());
+        // return ans;
+        vector<int>ds,vis(nums.size(),0);
+        helper2(nums,vis,nums.size(),ds);
+        return ans;
+
+        vector<vector<int>>naya;
+        sort(nums.begin(),nums.end());
+        do{
+            naya.push_back(nums);
+        }while(next_permutation(nums.begin(),nums.end()));
+        // return naya;
+
+        
+    }
+};
