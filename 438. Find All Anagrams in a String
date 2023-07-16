@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+    map<char,int>mp1,mp2;
+    for(auto it:p)mp1[it]++;
+    int i=0,j=0;
+    vector<int>ans;
+    while(j<s.size()){
+        mp2[s[j]]++;
+        if((j-i+1)<p.size())j++;
+        else if((j-i+1)==p.size()){
+        bool helo=true;
+        for(auto it:mp1){
+            if(it.second!=mp2.find(it.first)->second)helo=false;            
+        }
+        if(helo)ans.push_back(i);
+        mp2[s[i]]--;
+        if(mp2[s[i]]==0)mp2.erase(s[i]);
+        i++;
+        j++;
+        }
+     
+    }
+    return ans;
+        
+    }
+};
