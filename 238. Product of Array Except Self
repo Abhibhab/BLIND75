@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int ans=1;
+        int res=1;
+        int hemlo=0;
+        for(auto it:nums){
+            if(it==0){
+                ans*=it;
+                hemlo++;
+
+            }else{
+            ans*=it;
+            res*=it;
+            }
+            }
+        vector<int>vec;
+        if(hemlo==nums.size()){
+            for(auto it:nums){
+                vec.push_back(0);
+
+            }
+            return vec;
+        }
+        for(auto it:nums){
+            if(it!=0)
+            vec.push_back(ans/it);
+            if(hemlo==1 && it==0){
+            vec.push_back(res);
+            }
+            if(hemlo>=2 &&it==0){
+                vec.push_back(ans);
+            }
+        }
+        return vec;
+        
+    }
+};
