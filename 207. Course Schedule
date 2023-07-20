@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<int>adj[numCourses];
+        vector<int>indegree(numCourses);
+        queue<int>q;
+        for(auto it:prerequisites){
+            adj[it[1]].push_back(it[0]);
+        }
+       for(int i=0;i<numCourses;i++){
+           for(auto it:adj[i]){
+               indegree[it]++;
+           }
+       }
+       for(int i=0;i<numCourses;i++){
+           if(indegree[i]==0)q.push(i);
+       }
+       vector<int>vec;
+       while(q.size()){
+           auto it=q.front();
+           vec.push_back(it);
+           q.pop();
+           for(auto it:adj[it]){
+               indegree[it]--;
+               if(indegree[it]==0)q.push(it);
+           }
+       }
+       if(vec.size()==numCourses)return 1;
+       else return 0;
+        
+    }
+};
