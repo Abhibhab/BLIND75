@@ -1,0 +1,50 @@
+class Solution {
+public:
+    int helper(int ind,vector<int>&coins,int amount, vector<vector<int>>&dp){
+        if(amount==0)return 0;
+        if(ind==0){
+            if(amount%coins[ind]==0)return amount/coins[ind];
+            else return 1e9;
+        }
+        if(dp[ind][amount]!=-1)return dp[ind][amount];
+        //take
+        int take=INT_MAX;
+        if(amount>=coins[ind]){
+            take=1+helper(ind,coins,amount-coins[ind],dp);
+            
+        }
+        int nottake=helper(ind-1,coins,amount,dp);
+        return dp[ind][amount]=min(take,nottake);
+        
+    }
+    int coinChange(vector<int>& coins, int total) {
+    //     vector<vector<int>>dp(coins.size(),vector<int>(amount+1,-1));
+
+    //    int helo=helper(coins.size()-1,coins,amount,dp);
+    //    if(helo==1e9)return -1;
+    //    else return helo;
+        vector<vector<int>>dp(coins.size(),vector<int>(total+1,0));
+        for(int amount=0;amount<=total;amount++){
+            if(amount%coins[0]==0)dp[0][amount]=amount/coins[0];
+            else dp[0][amount]=1e9;
+        }
+        for(int ind=1;ind<coins.size();ind++){
+            for(int amount=1;amount<=total;amount++){
+                 int take=INT_MAX;
+                if(amount>=coins[ind]){
+                    take=1+dp[ind][amount-coins[ind]];
+                    
+                }
+                int nottake=dp[ind-1][amount];
+               dp[ind][amount]=min(take,nottake);
+        
+
+            }
+        }
+        if(dp[coins.size()-1][total]==1e9)return -1;
+        else return dp[coins.size()-1][total];
+
+
+        
+    }
+};
