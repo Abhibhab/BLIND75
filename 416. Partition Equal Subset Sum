@@ -1,0 +1,46 @@
+class Solution {
+public:
+
+    bool helper(int ind,int tar,vector<int>&nums,vector<vector<int>>&dp){
+        if(ind==0){
+            if(nums[ind]==tar)return true;
+            else return false;
+        }
+        if(dp[ind][tar]!=-1)return dp[ind][tar];
+        int take=false;
+        if(tar>=nums[ind]){
+            take=helper(ind-1,tar-nums[ind],nums,dp);
+       }
+       int nottake=helper(ind-1,tar,nums,dp);
+       return dp[ind][tar]=take||nottake;
+
+    }
+
+    bool canPartition(vector<int>& nums) {
+        int sum=accumulate(nums.begin(),nums.end(),0);
+        // vector<vector<int>>dp(nums.size()+1,vector<int>(sum+1,-1));
+
+
+        if(sum%2==0){
+         vector<vector<int>>dp(nums.size()+1,vector<int>(sum+1,0));
+         for(int tar=0;tar<=sum;tar++){
+             if(nums[0]==tar)dp[0][tar]=1;
+         }
+         for(int ind=1;ind<nums.size();ind++){
+             for(int tar=0;tar<=sum;tar++){
+                 int take=false;
+                if(tar>=nums[ind]){
+                    take=dp[ind-1][tar-nums[ind]];
+            }
+            int nottake=dp[ind-1][tar];
+           dp[ind][tar]=take||nottake;
+
+             }
+         }
+         return dp[nums.size()-1][sum/2];
+            // return helper(nums.size()-1,sum/2,nums,dp);
+
+        }else return false;
+        
+    }
+};
